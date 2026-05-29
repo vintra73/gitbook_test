@@ -1,8 +1,8 @@
-# Scambio di dati asincrono con callback
+# Scambi di dati asincroni con callback
 
 ## Che cosa sono e a cosa servono
 
-Lo **scambio di dati asincrono con callback** permette all'erogatore di pubblicare un e-service che, in maniera standardizzata, permette la gestione dei casi in cui la predisposizione della risposta da parte dell’erogatore è un **attività che richiede del tempo**.
+Gli **Scambi di dati asincroni con callback** permettono all'erogatore di pubblicare e-service che, in maniera standardizzata, permettono la gestione dei casi in cui la predisposizione della risposta è un **attività che richiede del tempo**.
 
 L'erogatore può: 
 - permette al fruitore di **recuperare la risposta a blocchi**;
@@ -10,7 +10,7 @@ L'erogatore può:
 
 ## Modalità di scambio tra erogatore e fruitore
 
-Lo **scambio di dati asincrono con callback** prevede le seguenti fasi:
+Gli **Scambi di dati asincroni con callback** prevedono le seguenti fasi:
 
 - **avvio interazione**:
 - **segnalazione della disponibilità della risposta**:
