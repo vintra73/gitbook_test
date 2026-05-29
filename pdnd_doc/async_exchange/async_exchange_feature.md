@@ -38,6 +38,7 @@ Per configurare e pubblicare un e-service con **scambio di dati asincrono con ca
 
 
 > Le scelte effettuate nelle **specifiche tecniche** diventano immutabili una volta pubblicata la versione dell'e-service. Per modificarle, sarà necessario creare una **nuova versione**. 
+> 
 > La **modalità di scambio** complessiva dell'e-service non può più essere modificata dopo la pubblicazione della prima versione, così da garantire stabilità e coerenza nel tempo. Per cambiare modalità, sarà necessario creare un nuovo e-service e archiviare quello precedente. 
 
 
