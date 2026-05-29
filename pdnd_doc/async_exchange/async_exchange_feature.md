@@ -19,7 +19,7 @@ Gli **scambi di dati asincroni con callback** prevedono le seguenti fasi:
 
 
 La **Piattaforma Digitale Nazionale Dati (PDND)** assicura agli erogatori e fruitori di e-service con **scambio di dati asincrono con callback**:
-- al momento della richiesta del voucher da parte del fruitore per la fase **avvio interazione**, la generazione dell'**identificativo univoco della interazione** avviata;
+- la generazione dell'**identificativo univoco della interazione** avviata, al momento della richiesta del voucher da parte del fruitore per la fase **avvio interazione**;
 - l'emissione di voucher specializzati per ogni fase prevista e la corretta successione di queste (ad esempio non emette il voucher per la fase **recupero della risposta** se non è gia stato emesso un voucher per la fase **segnalazione della disponibilità della risposta**).
 
 ## Cosa deve fare l’Erogatore
