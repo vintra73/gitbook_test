@@ -2,48 +2,49 @@
 
 ## Che cosa sono e a cosa servono
 
-Gli **scambi di dati asincroni con callback** permettono all'erogatore di pubblicare e-service che, in maniera standardizzata, permettono la gestione dei casi in cui la predisposizione della risposta è un **attività che richiede del tempo**.
+Gli **scambi di dati asincroni con callback** permettono all'erogatore di pubblicare e-service strutturati per gestire, in modo standardizzato, tutti i casi in cui la predisposizione della risposta è un'**attività che richiede tempo**.
 
-L'erogatore può: 
-- permette al fruitore di **recuperare la risposta a blocchi**;
-- richiedere al fruitore di **confermare di aver recuperato la risposta**.
+In particolare, l'erogatore può: 
+* Permettere al fruitore di **recuperare la risposta a blocchi (paginazione)**.
+* Richiedere al fruitore di **confermare l'avvenuto recupero della risposta**.
 
 ## Modalità di scambio tra erogatore e fruitore
 
-Gli **scambi di dati asincroni con callback** prevedono le seguenti fasi:
+Il flusso di uno **scambio dati asincrono con callback** si articola nelle seguenti fasi:
 
-1. **avvio interazione**: l'erogatore effettua una richiesta accedendo all'e-service del fruitore;
-2. **segnalazione della disponibilità della risposta**: quando il fruitore predispone la risposta, avvisa il fruitore della disponibilità della risposta accedendo alla **API callback** predisposta da quest'ultimo; 
-3. **recupero della risposta**: il fruitore accedendo all'e-service del fruitore, provvede a recuperare la risposta e, se abilitato dall'erogatore, recupera la stessa a blocchi;
-4. **conferma del recupero della risposta**: se richiesto dall'erogatore, il fruitore accedendo all'e-service del fruitore, conferma il recupero della risposta.
+1. **Avvio dell'interazione**: il fruitore effettua una richiesta accedendo all'e-service dell'erogatore.
+2. **Segnalazione di disponibilità della risposta**: quando l'erogatore ha predisposto i dati, notifica il fruitore dell'avvenuta disponibilità della risposta invocando l'**API di callback** implementata e messa a disposizione da quest'ultimo.
+3. **Recupero della risposta**: il fruitore, accedendo all'e-service dell'erogatore, provvede a scaricare la risposta. Se l'opzione è stata abilitata dall'erogatore, il recupero può avvenire a blocchi.
+4. **Conferma del recupero**: se richiesto dall'erogatore, il fruitore invoca l'e-service per confermare di aver correttamente scaricato i dati.
 
-
-La **Piattaforma Digitale Nazionale Dati (PDND)** assicura agli erogatori e fruitori di e-service con **scambio di dati asincrono con callback**:
-- la generazione dell'**identificativo univoco della interazione** avviata, al momento della richiesta del voucher da parte del fruitore per la fase **avvio interazione**;
-- l'emissione di voucher specializzati per ogni fase prevista e la corretta successione di queste (ad esempio non emette il voucher per la fase **recupero della risposta** se non è gia stato emesso un voucher per la fase **segnalazione della disponibilità della risposta**).
-
-## Cosa deve fare l’Erogatore
-L'erogatore per definire un e-service con **scambio di dati asincrono con callback**:
-
-- nelle **informazioni generali** seleziona la **modalità di scambio asincrono / massivo (in differita)**;
-
-- nelle **specifiche teniche** indica:
-    - registra la specifica dell'API di callback che i fruitori devo implementare;
-    - il **tempo massimo di risposta** entro cui predisporrà la risorsa;
-    - il **numero massimo di risultati per risposta** che si rende a disponibile a produrre;
-    - per quanto tempo rende disponibile la risposta indicando la **durata di disponibilità del dato**;
-
-    e abilita o meno le opzioni per:
-
-    - permette al fruitore di **recuperare la risposta a blocchi**;
-    - richiedere al fruitore di **confermare di aver recuperato la risposta**.
+> La **Piattaforma Digitale Nazionale Dati (PDND)** garantisce la sicurezza e la corretta orchestrazione del flusso assicurando:
+> * La generazione di un **identificativo univoco dell'interazione** al momento della richiesta del voucher da parte del fruitore (nella fase di avvio).
+> * L'emissione di **voucher dedicati e vincolati** per ciascuna fase, garantendone la corretta successione temporale (ad esempio, PDND non emetterà il voucher per il *recupero della risposta* se prima l'erogatore nnon ha richiesto il voucher per la *segnalazione di disponibilità*).
 
 
-Quanto indicato dall'erogattore nelle **specifiche teniche**, dopo la pubblicazione di una versione, sono immutabili. È comunque possibile creare una **nuova versione** dell'e-ervice per modificare tale scelte effettuate dall'erogatore.
+## Cosa deve fare l'Erogatore
 
-La **modalità di scambio** di un'e-service resta invariata dopo la pubblicazione della prima versione dell’e-service, per garantire stabilità e coerenza del servizio nel tempo. È comunque possibile creare nuovi e-service e archiviare quelli non più utilizzati.
+Per configurare e pubblicare un e-service con **scambio di dati asincrono con callback**, l'erogatore deve impostare i seguenti parametri:
+
+* **Informazioni generali**: selezionare la **modalità di scambio asincrono / massivo (in differita)**.
+* **Specifiche tecniche**:
+    * Registrare la specifica dell'API di callback che i fruitori dovranno implementare.
+    * Indicare il **tempo massimo di risposta** entro cui si impegna a predisporre la risorsa.
+    * Definire il **numero massimo di risultati per risposta** che si rende disponibile a produrre.
+    * Specificare la **durata di disponibilità del dato** (per quanto tempo la risposta resterà salvata e accessibile).
+* **Opzioni accessorie** (attivabili a scelta):
+    * Consentire al fruitore di **recuperare la risposta a blocchi**.
+    * Richiedere al fruitore l'obbligo di **confermare il recupero della risposta**.
+
+
+> Le scelte effettuate nelle **specifiche tecniche** diventano immutabili una volta pubblicata la versione dell'e-service. Per modificarle, sarà necessario creare una **nuova versione**. 
+> La **modalità di scambio** complessiva dell'e-service non può più essere modificata dopo la pubblicazione della prima versione, così da garantire stabilità e coerenza nel tempo. Per cambiare modalità, sarà necessario creare un nuovo e-service e archiviare quello precedente. 
+
+
 
 ## Cosa deve fare il Fruitore
-Il fruitore per utilizzare un e-service con **scambio di dati asincrono con callback** implementa la API di callback indicata dall'erogatore.
 
-Il fruitore indica, nella richiesta di voucher per la fase **avvio interazione**, l'URL dove rendede disponibile la API di callback implementata. 
+Per poter utilizzare un e-service basato su questa modalità, il fruitore deve:
+
+1. **Implementare l'API di callback** secondo le specifiche tecniche indicate dall'erogatore.
+2. **Comunicare l'endpoint**: in fase di richiesta del voucher per l'**avvio dell'interazione**, il fruitore deve specificare l'URL presso cui ha reso disponibile la propria API di callback.
