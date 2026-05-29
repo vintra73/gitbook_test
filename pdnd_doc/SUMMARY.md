@@ -1,0 +1,2 @@
+- [RIFERIMENTI TECNICI]
+    - [Scambi di dati asincroni con callback](./async_exchange/async_exchange_feature.md)
