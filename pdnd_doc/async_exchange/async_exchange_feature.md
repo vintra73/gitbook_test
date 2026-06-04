@@ -26,7 +26,7 @@ Il flusso di uno **scambio dati asincrono con callback** si articola nelle segue
 
 Per configurare e pubblicare un e-service con **scambio di dati asincrono con callback**, l'erogatore deve impostare i seguenti parametri:
 
-* **Informazioni generali**: selezionare la **modalità di scambio asincrono / massivo (in differita)**.
+* **Informazioni generali**: selezionare la **modalità di scambio** a **asincrono / massivo (in differita)**.
 * **Specifiche tecniche**:
     * Registrare la specifica dell'API di callback che i fruitori dovranno implementare.
     * Indicare il **tempo massimo di risposta** entro cui si impegna a predisporre la risorsa.
@@ -39,7 +39,7 @@ Per configurare e pubblicare un e-service con **scambio di dati asincrono con ca
 
 > Le scelte effettuate per le **Specifiche tecniche** e **Opzioni accessorie** diventano immutabili una volta pubblicata la versione dell'e-service. Per modificarle, sarà necessario creare una **nuova versione**. 
 > 
-> La **modalità di scambio** complessiva dell'e-service, definita nelle **Informazioni generali**, non può più essere modificata dopo la pubblicazione della prima versione, così da garantire stabilità e coerenza nel tempo. Per cambiare modalità, sarà necessario creare un nuovo e-service e archiviare quello precedente. 
+> La **modalità di scambio** dell'e-service, definita nelle **Informazioni generali**, non può più essere modificata dopo la pubblicazione della prima versione, così da garantire stabilità e coerenza nel tempo. Per cambiare modalità, sarà necessario creare un nuovo e-service e archiviare quello precedente. 
 
 
 
