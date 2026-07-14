@@ -157,3 +157,7 @@ Authorization: Bearer <voucher>
 L'erogatore effettua tutte le verifiche necessarie. Se tutto è in ordine, elabora la richiesta del fruitore, restituiendogli i dati richiesti in caso di e-service che eroga dati, oppure accettando i dati dal fruitore in caso di e-service che riceve dati.
 
 Per consultare le verifiche consigliate agli erogatori, si veda la [sezione dedicata](<INSERT URL>).
+
+## Come richiedere un voucher DPoP per le API scambi di dati asincroni con callback di un erogatore
+Per richiedere un voucher DPoP per le API scambi di dati asincroni con callback di un erogatore si applica quando indicato per le API standard, si veda la [sezione dedicata](<INSERT URL>), fatta salva la generazione della client assertion nei modi indicati al precedente [**Step 1: Generazione della client assertion**](#step-1-generazione-della-client-assertion).
+
