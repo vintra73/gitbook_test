@@ -1,2 +1,4 @@
 - RIFERIMENTI TECNICI
     - [Scambi di dati asincroni con callback](./async_exchange/scambi-asincroni.md)
+- TUTORIAL
+    - [Come richiedere un voucher Bearer per le API scambi di dati asincroni con callback di un erogatore](./async_exchange/tutorial/consumer_get_access_token.md)
