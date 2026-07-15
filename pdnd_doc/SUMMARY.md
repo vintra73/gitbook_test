@@ -1,4 +1,6 @@
 - RIFERIMENTI TECNICI
     - [Scambi di dati asincroni con callback](./async_exchange/scambi-asincroni.md)
-- TUTORIAL
-    - [Come richiedere un voucher per le API scambi di dati asincroni con callback di un erogatore](./async_exchange/tutorial/consumer_get_access_token.md)
+- TUTORIAL FRUITORE
+    - [Come richiedere un voucher per le API di un erogatore per scambi di dati asincroni](./async_exchange/tutorial/fruitore-recupera-voucher-scambi-asincroni.md)
+- TUTORIAL EROGATORE
+    - [Come richiedere un voucher DPoP per la API callback di un fruitore per scambi di dati asincroni](./async_exchange/tutorial/erogatore-recupera-voucher-scambi-asincroni.md)

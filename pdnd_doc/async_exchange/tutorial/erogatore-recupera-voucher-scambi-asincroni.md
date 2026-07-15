@@ -1,28 +1,20 @@
-# Come richiedere un voucher Bearer per le API scambi di dati asincroni con callback di un erogatore
+# Come richiedere un voucher Bearer per la API callback di un fruitore per scambi di dati asincroni
 
-Il contesto di applicazione del presente tutoriale sono gli [**scambi di dati asincroni con callback**](<INSERT URL>).
+Il contesto di applicazione del presente tutoriale sono gli [**scambi di dati asincroni con callback**](<INSERT URL:riferimenti-tecnici/e-service>).
 
 ## Il flusso in breve
 In sostanza, il processo end-to-end richiede cinque passaggi:
 
-1. il fruitore genera la client assertion;
-2. il fruitore chiede il voucher al server autorizzativo di PDND;
+1. l'erogatore genera la client assertion;
+2. l'erogatore chiede il voucher al server autorizzativo di PDND;
 3. il server autorizzativo di PDND effettua le verifiche necessarie. In caso di esito positivo, restituisce un voucher;
-4. il fruitore fa una richiesta verso l'e-service dell'erogatore; inserisce il voucher rilasciato da PDND Interoperabilità nell'header Authorization;
-5. l'erogatore effettua le verifiche necessarie. In caso di esito positivo, elabora la richiesta del fruitore.
-
-In particolare, al precedente passo 1., il fruitore genera la client assertion in relazione alla fase dell'interazione in essere:
-
-- **Avvio dell'interazione**, per avviare una nuova interazione;
-- **Recupero della risposta**, anche più volte se necessario per recuperare la risposta;
-- **Conferma del recupero**, se abilitata dall'erogatore per l'API. 
+4. l'erogatore fa una richiesta verso l'API callback del fruitore; inserisce il voucher rilasciato da PDND Interoperabilità nell'header Authorization;
+5. il fruitore effettua le verifiche necessarie. In caso di esito positivo, elabora la richiesta dell'erogatore.
 
 ## Prerequisiti
 Si assume che il fruitore abbia:
 
-- creato un client di tipo e-service ([vedi tutorial](<INSERT URL>));
-- generato almeno un set di materiale crittografico e caricato la relativa chiave pubblica su PDND Interoperabilità all'interno del client ([vedi tutorial](<INSERT URL>));
-- associato il client alla finalità per la quale vuole avviare le interazioni per un API **scambi di dati asincroni con callback** dell'erogatore ([vedi tutorial](<INSERT URL>)).
+- associato un portachiavi all'e-service ([vedi tutorial](<INSERT URL:tutorial/tutorial-per-lerogatore/come-associare-un-portachiavi-ad-un-e-service>)).
 
 
 ## Step 1: Generazione della client assertion
@@ -46,11 +38,11 @@ Payload:
 | iat | l'issued at, il timestamp riportante data e ora in cui viene creato il token, espresso in [UNIX epoch](https://datatracker.ietf.org/doc/html/rfc3339) (valore numerico, non stringa)|
 | exp | l'expiration, il timestamp riportante data e ora di scadenza del token, espresso in [UNIX epoch](https://datatracker.ietf.org/doc/html/rfc3339) (valore numerico, non stringa) |
 | purposeId | l'id della singola finalità per la quale si vuole ottenere un voucher, disponibile sul front office | 
-| scope | la fase dell'interazione in essere, nel dettaglio: <br> <ul><li>*start_interaction*, per **Avvio dell'interazione**</li><li>*get_resource*, per **Recupero della risposta**</li><li>*confirmation*, per **Conferma del recupero**</li></ul> |
-| urlCallback | solo per *scope* = *start_interaction*, indica l'URL dove il fruitore rendere disponibile l'API di callback definita dall'erogatore |
-| interactionID | solo per *scope* = *get_resource* o *scope* = *confirmation*, riporta l'*interactionID* in essere generato dal server autorizzativo di PDND |
+| scope | la fase dell'interazione in essere, in questo caso sempre *callback_invocation* |
+| entityNumber | il nuemro di entità presenti nella risposta |
+| interactionID | riporta l'*interactionID* in essere generato dal server autorizzativo di PDND |
 
-Si ricorda che l'erogatore recupera e memorizza l'*interactionID* in essere generato dal server autorizzativo di PDND dal voucher emesso dallo stesso server in risposta alla richiesta per *scope* = *start_interaction*.
+Si ricorda che il fruitore recupera e memorizza l'*interactionID* in essere presente nel voucher con *scope* = *start_interaction* che ha autorizzato l'avvio dell'interazione.
 
 A titolo esemplificativo, di seguito un esempio di contenuto di client assertion deserializzata, in modo da evidenziarne il contenuto.
 
@@ -73,20 +65,19 @@ Payload:
   "iat": 1616170068,
   "exp": 1616170668,
   "purposeId": "34f1624b-91cb-4b05-b8c0-cad208a30222",
-  "scope": "get_resource",
+  "scope": "callback_invocation",
+  "entityNumber": 100;
   "interactionID": "123e4567-e89b-12d3-a456-426614174000"
 }
 
 ```
 
-Dopo aver costruito una client assertion valida, questa deve essere firmata con la propria chiave privata (che deve essere l'omologa della chiave pubblica depositata sul client su PDND Interoperabilità).
-
-A scopo esemplificativo, è stato pubblicato uno script Python per dimostrare come eseguire l'operazione. Tutte le istruzioni sono disponibili nel front office, all'interno del proprio client.
+Dopo aver costruito una client assertion valida, questa deve essere firmata con la propria chiave privata (che deve essere l'omologa della chiave pubblica depositata nel portachiavi associato all'e-service).
 
 È inoltre disponibile una funzione per verificare la validità della propria client assertion ed evidenziare eventuali errori. Lo strumento è disponibile nel front office su **Tool per lo sviluppo > Debug client assertion**.
 
 ## Step 2: Richiedere il voucher al server autorizzativo
-Il secondo passaggio è chiamare il server autorizzativo di PDND Interoperabilità con la client assertion firmata per ottenerne in cambio un voucher spendibile presso le API di PDND Interoperabilità.
+Il secondo passaggio è chiamare il server autorizzativo di PDND Interoperabilità con la client assertion firmata per ottenerne in cambio un voucher spendibile presso le API di callback del fruitore.
 
 L'URL dell'endpoint alla quale si trova il server autorizzativo cambia in funzione dell'ambiente in cui ci si trova e sarà chiaramente visibile sull'interfaccia all'interno del front office.
 
@@ -140,24 +131,31 @@ Payload:
   "consumerId" : "69e2865e-65ab-4e48-a638-2037a9ee2ee7",
   "eserviceId" : "b8c6d7ad-93fc-4eaf-9018-3cd8bf98163f",
   "descriptorId": "9525a54b-9157-4b46-8976-ec66f20b7d7e",
-  "scope": "get_resource",
+  "scope": "callback_invocation",
+  "entityNumber": 100;
   "interactionID": "123e4567-e89b-12d3-a456-426614174000"
 }
 
 ```
 
-## Step 4: Richiedere i dati all'erogatore 
-Il voucher andrà inserito nell'header di tutte le chiamate successive verso le API dell'erogatore. Andrà inserito nell'header di **Authorization**, come segue:
+## Step 4: Invocare la API di callback del fruitore 
+Il voucher andrà inserito nell'header della chiamata successiva verso la API di callback del fruitore. Andrà inserito nell'header di **Authorization**, come segue:
 
 ```
 Authorization: Bearer <voucher>
 ```
 
-## Step 5: Attendere le verifiche dell'erogatore
-L'erogatore effettua tutte le verifiche necessarie. Se tutto è in ordine, elabora la richiesta del fruitore, restituiendogli i dati richiesti in caso di e-service che eroga dati, oppure accettando i dati dal fruitore in caso di e-service che riceve dati.
+Si ricorda che il fruitore recupera l'*urlCallback* per richiamare la API di callback nel voucher con *scope* = *start_interaction* che ha autorizzato l'avvio dell'interazione.
 
-Per consultare le verifiche consigliate agli erogatori, si veda la [sezione dedicata](<INSERT URL>).
 
-## Come richiedere un voucher DPoP per le API scambi di dati asincroni con callback di un erogatore
-Per richiedere un voucher DPoP per le API scambi di dati asincroni con callback di un erogatore si applica quando indicato per le API standard, si veda la [sezione dedicata](<INSERT URL>), fatta salva la generazione della client assertion nei modi indicati al precedente [**Step 1: Generazione della client assertion**](#step-1-generazione-della-client-assertion).
+## Step 5: Attendere le verifiche del fruitore
+Il fruitore effettua tutte le verifiche necessarie. Se tutto è in ordine, elabora la richiesta dell'erogatore.
+
+Il fruitore esegue le verifiche indicate nella [sezione dedicata](<INSERT URL:tutorial/tutorial-per-lerogatore/come-verificare-la-validita-di-un-voucher-bearer>), a cui si aggiungono alle **Verifiche sul payload**:
+ - **scope**: lo scope che deve essere uguale a **start_interaction**;
+ - **interactionID**: deve essere presente;
+ - **entityNumber**: deve essere presente e maggiore di 0.
+
+# Come richiedere un voucher DPoP per la API callback di un fruitore per scambi di dati asincroni
+Per richiedere un voucher DPoP per la API di un erogatore per scambi di dati asincroni si applica quando indicato per normali e-service, si veda la [sezione dedicata](<INSERT URL:tutorial/tutorial-per-il-fruitore/come-richiedere-un-voucher-dpop-per-le-api-di-un-erogatore-base>), fatta salva la generazione della client assertion nei modi indicati al precedente [**Step 1: Generazione della client assertion**](#step-1-generazione-della-client-assertion).
 
